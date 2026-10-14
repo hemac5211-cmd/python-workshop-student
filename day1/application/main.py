@@ -1,89 +1,74 @@
-from student import Student
-from student_manager import StudentManager
-from storage import load_students, save_students
 
-manager = StudentManager()
 
-Load students from students.json
+        print("6. Exit")
 
-manager.students = load_students("students.json", Student)
+    choice = input("Enter your choice: ")
 
-while True:
-print("\n===== Student Management System =====")
-print("1. Add Student")
-print("2. View Students")
-print("3. Find Student")
-print("4. Update Student")
-print("5. Delete Student")
-print("6. Exit")
+    if choice == "1":
+        name = input("Enter student name: ")
+        age = int(input("Enter student age: "))
 
-choice = input("Enter your choice: ")  
+        python_marks = float(input("Enter Python marks: "))
+        mathematics_marks = float(input("Enter Mathematics marks: "))
+        communication_marks = float(input("Enter Communication marks: "))
 
-if choice == "1":  
-    name = input("Enter student name: ")  
-    age = int(input("Enter student age: "))  
+        student = Student(
+            name,
+            age,
+            python_marks,
+            mathematics_marks,
+            communication_marks
+        )
 
-    python_marks = float(input("Enter Python marks: "))  
-    mathematics_marks = float(input("Enter Mathematics marks: "))  
-    communication_marks = float(input("Enter Communication marks: "))  
+        manager.add_student(student)
+        print("Student added successfully!")
 
-    student = Student(  
-        name,  
-        age,  
-        python_marks,  
-        mathematics_marks,  
-        communication_marks  
-    )  
+    elif choice == "2":
+        manager.view_students()
 
-    manager.add_student(student)  
-    print("Student added successfully!")  
+    elif choice == "3":
+        name = input("Enter student name to search: ")
+        student = manager.find_student(name)
 
-elif choice == "2":  
-    manager.view_students()  
+        if student:
+            student.display()
+        else:
+            print("Student not found!")
 
-elif choice == "3":  
-    name = input("Enter student name to search: ")  
-    student = manager.find_student(name)  
+    elif choice == "4":
+        name = input("Enter student name to update: ")
 
-    if student:  
-        student.display()  
-    else:  
-        print("Student not found!")  
+        python_marks = float(input("Enter new Python marks: "))
+        mathematics_marks = float(input("Enter new Mathematics marks: "))
+        communication_marks = float(input("Enter new Communication marks: "))
 
-elif choice == "4":  
-    name = input("Enter student name to update: ")  
+        updated = manager.update_student(
+            name,
+            python_marks,
+            mathematics_marks,
+            communication_marks
+        )
 
-    python_marks = float(input("Enter new Python marks: "))  
-    mathematics_marks = float(input("Enter new Mathematics marks: "))  
-    communication_marks = float(input("Enter new Communication marks: "))  
+        if updated:
+            print("Student updated successfully!")
+        else:
+            print("Student not found!")
 
-    updated = manager.update_student(  
-        name,  
-        python_marks,  
-        mathematics_marks,  
-        communication_marks  
-    )  
+    elif choice == "5":
+        name = input("Enter student name to delete: ")
 
-    if updated:  
-        print("Student updated successfully!")  
-    else:  
-        print("Student not found!")  
+        deleted = manager.delete_student(name)
 
-elif choice == "5":  
-    name = input("Enter student name to delete: ")  
+        if deleted:
+            print("Student deleted successfully!")
+        else:
+            print("Student not found!")
 
-    deleted = manager.delete_student(name)  
+    elif choice == "6":
+        save_students(manager.students, "students.json")
+        print("Student data saved successfully!")
+        print("Exiting Student Management System.")
+        break
 
-    if deleted:  
-        print("Student deleted successfully!")  
-    else:  
-        print("Student not found!")  
-
-elif choice == "6":  
-    save_students(manager.students, "students.json")  
-    print("Student data saved successfully!")  
-    print("Exiting Student Management System.")  
-    break  
-
-else:  
-    print("Invalid choice! Please try again.")
+    else:
+        print("Invalid choice! Please try again.")
